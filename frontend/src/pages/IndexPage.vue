@@ -5,7 +5,10 @@
         <q-table
           :columns="columns"
           :rows="toDos"
+          :rows-per-page-options="[10, 25, 50, 75, 100]"
           row-key="name"
+          @request="onRequest"
+          v-model:pagination="pagination"
         >
           <template v-slot:top>
             <q-space/>
@@ -55,7 +58,7 @@
               </div>
               <div class="col-xl-2 col-md-3 col-sm-6 col-xs-12">
                 <q-btn
-                  @click="onRequest"
+                  @click="applyFilter"
                   color="accent"
                   label="apply filter"
                   icon="filter_list"
@@ -314,8 +317,14 @@ const columns = [
     field: ''
   }
 ];
+const pagination = ref({
+  page: 1,
+  rowsPerPage: 10,
+  rowsNumber: 0
+});
 
 onMounted(() => {
+  getToDosTotalNumber();
   getToDos();
 })
 
@@ -325,7 +334,9 @@ function getToDos() {
       description: filter.value.description,
       dueDate: filter.value.dueDate,
       isDone: filter.value.isDone,
-      isNotDone: filter.value.isNotDone
+      isNotDone: filter.value.isNotDone,
+      page: pagination.value.page - 1,
+      rowsPerPage: pagination.value.rowsPerPage
     }
   })
     .then(response => {
@@ -333,7 +344,34 @@ function getToDos() {
     })
 }
 
-function onRequest() {
+function getToDosTotalNumber() {
+  api.get('/todo/total-number', {
+    params: {
+      description: filter.value.description,
+      dueDate: filter.value.dueDate,
+      isDone: filter.value.isDone,
+      isNotDone: filter.value.isNotDone
+    }
+  })
+    .then(response => {
+      pagination.value.rowsNumber = response.data;
+    })
+}
+
+function onRequest(props) {
+  pagination.value = props.pagination;
+
+  getToDosTotalNumber();
+  if (filterDate.value === null) {
+    filter.value.dueDate = null;
+  } else {
+    filter.value.dueDate = convertToISO(filterDate.value);
+  }
+  getToDos();
+}
+
+function applyFilter() {
+  getToDosTotalNumber();
   if (filterDate.value === null) {
     filter.value.dueDate = null;
   } else {
@@ -348,7 +386,7 @@ function removeFilter() {
   filter.value.isDone = false;
   filter.value.isNotDone = false;
   filterDate.value = null;
-  onRequest();
+  applyFilter();
 }
 
 function formatDueDate(dueDate) {

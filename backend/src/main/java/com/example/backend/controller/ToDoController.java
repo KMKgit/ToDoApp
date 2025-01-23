@@ -25,6 +25,8 @@ public class ToDoController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<ToDoResponse> findAllToDos(
+            @RequestParam(name = "page") Integer page,
+            @RequestParam(name = "rowsPerPage") Integer pageSize,
             @RequestParam(name = "description", required = false) String description,
             @RequestParam(name = "isDone", required = false, defaultValue = "false") boolean isDone,
             @RequestParam(name = "isNotDone", required = false, defaultValue = "false") boolean isNotDone,
@@ -33,7 +35,21 @@ public class ToDoController {
         log.info("Got GET request to find all todos");
 
         ToDoFilterRequest request = new ToDoFilterRequest(description, isDone, isNotDone, dueDate);
-        return toDoService.findAll(request).stream().map(ToDoMapper::toDto).toList();
+        return toDoService.findAll(request, page, pageSize).stream().map(ToDoMapper::toDto).toList();
+    }
+
+    @GetMapping("/total-number")
+    @ResponseStatus(HttpStatus.OK)
+    public Long findTotalNumber(
+            @RequestParam(name = "description", required = false) String description,
+            @RequestParam(name = "isDone", required = false, defaultValue = "false") boolean isDone,
+            @RequestParam(name = "isNotDone", required = false, defaultValue = "false") boolean isNotDone,
+            @RequestParam(name = "dueDate", required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dueDate) {
+        log.info("Got GET request to find all todos");
+
+        ToDoFilterRequest request = new ToDoFilterRequest(description, isDone, isNotDone, dueDate);
+        return toDoService.find(request);
     }
 
     @PostMapping

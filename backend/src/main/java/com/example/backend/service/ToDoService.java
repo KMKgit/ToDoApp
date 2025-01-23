@@ -8,6 +8,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -54,7 +55,7 @@ public class ToDoService {
         toDoRepository.deleteById(id);
     }
 
-    public List<ToDo> findAll(ToDoFilterRequest request) {
+    public List<ToDo> findAll(ToDoFilterRequest request, Integer page, Integer pageSize) {
         log.info("Starting to find all todos with request {}", request);
 
         Specification<ToDo> spec = Specification.where(null);
@@ -77,6 +78,37 @@ public class ToDoService {
 
         Sort sort = Sort.by(Sort.Order.asc("done"), Sort.Order.asc("dueDate"));
 
-        return toDoRepository.findAll(spec, sort);
+        return toDoRepository.findAll(
+                spec,
+                PageRequest.of(
+                        page,
+                        pageSize,
+                        sort
+                )
+        ).getContent();
+    }
+
+    public Long find(ToDoFilterRequest request) {
+        log.info("Starting to find total number of todos with request {}", request);
+
+        Specification<ToDo> spec = Specification.where(null);
+
+        if (request.getDescription() != null) {
+            spec = spec.and(descriptionContains(request.getDescription()));
+        }
+
+        if (request.isDone() && !request.isNotDone()) {
+            spec = spec.and(isDone());
+        }
+
+        if (request.isNotDone() && !request.isDone()) {
+            spec = spec.and(isNotDone());
+        }
+
+        if (request.getDueDate() != null) {
+            spec = spec.and(dueDateEquals(request.getDueDate()));
+        }
+
+        return toDoRepository.count(spec);
     }
 }
