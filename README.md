@@ -9,9 +9,16 @@ For this project I used the following technologies, all of which I have experien
 - **Quasar**: I chose Quasar, a framework with VueJS components, to create the frontend. It helped me to create a responsive and modern user interface.
 
 ### How to run the application
-To run the application, you need to have Docker installed on your machine. You can run the following command to build and start the containers:
+To run the application, you need to have Docker installed on your machine. Clone the repository, move into the project folder and build and start the containers:
 
 ```bash
+// Clone the repository
+git clone https://github.com/KMKgit/ToDoApp.git
+
+// Move into the project folder
+cd ToDoApp
+
+// Build and start the containers
 docker compose up -d
 ```
 
