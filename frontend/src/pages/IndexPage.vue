@@ -77,6 +77,11 @@
               {{ formatDueDate(props.row.dueDate) }}
             </q-td>
           </template>
+          <template v-slot:body-cell-createdAt="props">
+            <q-td :props="props">
+              {{ formatDueDate(props.row.createdAt) }}
+            </q-td>
+          </template>
           <template v-slot:body-cell-isDone="props">
             <q-td :props="props">
               <q-checkbox
@@ -282,6 +287,14 @@ const columns = [
     name: 'dueDate',
     label: 'Due Date',
     field: 'dueDate',
+    required: false,
+    align: 'left',
+    sortable: false
+  },
+  {
+    name: 'createdAt',
+    label: 'Creation Date',
+    field: 'createdAt',
     required: false,
     align: 'left',
     sortable: false
