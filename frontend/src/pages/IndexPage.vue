@@ -21,8 +21,8 @@
             <div style="width: 100%" class="row q-col-gutter-sm">
               <div class="col-xl-2 col-md-3 col-sm-6 col-xs-12">
                 <div> Done?</div>
-                <q-checkbox left-label v-model="filter.isDone" label="yes"/>
-                <q-checkbox left-label v-model="filter.isNotDone" label="no"/>
+                <q-checkbox left-label v-model="filter.isDone" label="Yes"/>
+                <q-checkbox left-label v-model="filter.isNotDone" label="No"/>
               </div>
               <div class="col-xl-2 col-md-3 col-sm-6 col-xs-12">
                 <q-input
