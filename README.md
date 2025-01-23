@@ -1,9 +1,9 @@
 # To Do App
 
-### Thought process behind the project
+## Thought process behind the project
 I started the project with frontend, backend and docker setup. When testcases were up and running, I continued with creating the backend entity with service functions. After testing API with postman, I started programming the frontend. When basic CRUD operations were working, I added the filtering and pagination to the application. Finally, I tested the docker composing and the application in another computer as well. 
 
-### Reasoning behind the technologies used
+## Reasoning behind the technologies used
 For this project I used the following technologies, all of which I have experience with:
 - **Java Spring Boot**: I chose Spring Boot because I have worked with it before and I felt comfortable using it. It is a powerful framework that allows me to create a REST API effectively.
 - **Flyway**: I used Flyway to manage the database migrations. It allows me to keep track of the changes in the database schema.
@@ -11,7 +11,7 @@ For this project I used the following technologies, all of which I have experien
 - **Docker**: I used Docker to containerize the application. It allows me to run the application in a container and deploy it quickly.
 - **Quasar**: I chose Quasar, a framework with VueJS components, to create the frontend. It helped me to create a responsive and modern user interface.
 
-### How to run the application
+## How to run the application
 To run the application, you need to have Docker installed on your machine. Clone the repository, move into the project folder and build and start the containers:
 
 ```bash
