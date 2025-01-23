@@ -1,5 +1,8 @@
 # To Do App
 
+### Thought process behind the project
+I started the project with frontend, backend and docker setup. When testcases were up and running, I continued with creating the backend entity with service functions. After testing API with postman, I started programming the frontend. When basic CRUD operations were working, I added the filtering and pagination to the application. Finally, I tested the docker composing and the application in another computer as well. 
+
 ### Reasoning behind the technologies used
 For this project I used the following technologies, all of which I have experience with:
 - **Java Spring Boot**: I chose Spring Boot because I have worked with it before and I felt comfortable using it. It is a powerful framework that allows me to create a REST API effectively.
