@@ -8,6 +8,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -74,6 +75,8 @@ public class ToDoService {
             spec = spec.and(dueDateEquals(request.getDueDate()));
         }
 
-        return toDoRepository.findAll(spec);
+        Sort sort = Sort.by(Sort.Order.asc("done"), Sort.Order.asc("dueDate"));
+
+        return toDoRepository.findAll(spec, sort);
     }
 }
